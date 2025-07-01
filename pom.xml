@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>xyz.keroro</groupId>
+    <groupId>com.huntall</groupId>
     <artifactId>hikvision-face-data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>hikvision-face-data</name>
@@ -37,10 +37,15 @@
             <version>8.0.33</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna -->
+        <!-- https://mvnrepository.com/artifact/com.sun.jna/jna -->
         <dependency>
-            <groupId>net.java.dev.jna</groupId>
+            <groupId>com.sun.jna</groupId>
             <artifactId>jna</artifactId>
+            <version>3.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jna.examples</groupId>
+            <artifactId>examples</artifactId>
             <version>3.0.9</version>
         </dependency>
 
