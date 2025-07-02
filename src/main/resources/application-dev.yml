@@ -11,7 +11,14 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.1.4:3306/arknights
-    username: root
-    password: rootroot
+    url: jdbc:mysql://2.82.4.242:3306/mt_ldzh
+    username: fbadmin
+    password: a123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 海康设备连接参数
+hik-app:
+  device-ip: 192.168.1.4
+  device-port: 8000
+  device-username: admin
+  device-password: abcd1234

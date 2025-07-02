@@ -1,7 +1,7 @@
 package com.huntall.domain.service;
 
 import com.huntall.common.util.CommonUtil;
-import com.huntall.common.constant.HikConstant;
+import com.huntall.common.constant.HikProperties;
 import com.huntall.common.sdk.HCNetSDK;
 import com.huntall.domain.entity.FMSGCallBack_V31;
 import com.sun.jna.Native;
@@ -40,8 +40,11 @@ public class HikService {
      */
     public final FMSGCallBack_V31 fMSFCallBack_V31;
 
-    public HikService(FMSGCallBack_V31 fMSFCallBackV31) {
+    private final HikProperties hikProperties;
+
+    public HikService(FMSGCallBack_V31 fMSFCallBackV31, HikProperties hikProperties) {
         fMSFCallBack_V31 = fMSFCallBackV31;
+        this.hikProperties = hikProperties;
     }
 
     /**
@@ -59,10 +62,10 @@ public class HikService {
                     // System.setProperty("jna.debug_load", "true");
                     if (CommonUtil.isWindows())
                         // win系统加载库路径
-                        strDllPath = HikConstant.LIB_PATH_PREFIX + "\\lib\\HCNetSDK.dll";
+                        strDllPath = hikProperties.getLibPathPrefix() + "\\lib\\HCNetSDK.dll";
                     else if (CommonUtil.isLinux())
                         // Linux系统加载库路径
-                        strDllPath = HikConstant.LIB_PATH_PREFIX + "/lib/libhcnetsdk.so";
+                        strDllPath = hikProperties.getLibPathPrefix() + "/lib/libhcnetsdk.so";
                     hCNetSDK = (HCNetSDK) Native.loadLibrary(strDllPath, HCNetSDK.class);
                 } catch (Exception ex) {
                     logger.error("loadLibrary: {} Error: {}", strDllPath, ex.getMessage());
@@ -140,15 +143,15 @@ public class HikService {
             HCNetSDK.BYTE_ARRAY ptrByteArray1 = new HCNetSDK.BYTE_ARRAY(256);
             HCNetSDK.BYTE_ARRAY ptrByteArray2 = new HCNetSDK.BYTE_ARRAY(256);
             // 这里是库的绝对路径，请根据实际情况修改，注意改路径必须有访问权限
-            String strPath1 = HikConstant.LIB_PATH_PREFIX + "/lib/libcrypto.so.1.1";
-            String strPath2 = HikConstant.LIB_PATH_PREFIX + "/lib/libssl.so.1.1";
+            String strPath1 = hikProperties.getLibPathPrefix() + "/lib/libcrypto.so.1.1";
+            String strPath2 = hikProperties.getLibPathPrefix() + "/lib/libssl.so.1.1";
             System.arraycopy(strPath1.getBytes(), 0, ptrByteArray1.byValue, 0, strPath1.length());
             ptrByteArray1.write();
             hCNetSDK.NET_DVR_SetSDKInitCfg(HCNetSDK.NET_SDK_INIT_CFG_LIBEAY_PATH, ptrByteArray1.getPointer());
             System.arraycopy(strPath2.getBytes(), 0, ptrByteArray2.byValue, 0, strPath2.length());
             ptrByteArray2.write();
             hCNetSDK.NET_DVR_SetSDKInitCfg(HCNetSDK.NET_SDK_INIT_CFG_SSLEAY_PATH, ptrByteArray2.getPointer());
-            String strPathCom = HikConstant.LIB_PATH_PREFIX + "/lib/";
+            String strPathCom = hikProperties.getLibPathPrefix() + "/lib/";
             HCNetSDK.NET_DVR_LOCAL_SDK_PATH struComPath = new HCNetSDK.NET_DVR_LOCAL_SDK_PATH();
             System.arraycopy(strPathCom.getBytes(), 0, struComPath.sPath, 0, strPathCom.length());
             struComPath.write();
@@ -170,7 +173,7 @@ public class HikService {
         }
 
         //设备登录
-        lUserID = loginDevice(HikConstant.DEVICE_IP, HikConstant.DEVICE_PORT, HikConstant.DEVICE_USERNAME, HikConstant.DEVICE_PASSWORD); //登录设备
+        lUserID = loginDevice(hikProperties.getDeviceIp(), hikProperties.getDevicePort(), hikProperties.getDeviceUsername(), hikProperties.getDevicePassword());
     }
 
     /**
