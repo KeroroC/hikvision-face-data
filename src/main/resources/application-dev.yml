@@ -11,9 +11,9 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://2.82.4.242:3306/mt_ldzh
-    username: fbadmin
-    password: a123456
+    url: jdbc:mysql://192.168.1.5:3306/mt_ldzh
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 # 海康设备连接参数
