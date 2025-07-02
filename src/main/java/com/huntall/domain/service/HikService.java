@@ -38,7 +38,11 @@ public class HikService {
     /**
      * 报警布防回调函数
      */
-    public HCNetSDK.FMSGCallBack_V31 fMSFCallBack_V31 = null;
+    public final FMSGCallBack_V31 fMSFCallBack_V31;
+
+    public HikService(FMSGCallBack_V31 fMSFCallBackV31) {
+        fMSFCallBack_V31 = fMSFCallBackV31;
+    }
 
     /**
      * 创建SDK实例
@@ -155,17 +159,14 @@ public class HikService {
         logger.info("SDK初始化成功");
 
         // 加载日志
-        hCNetSDK.NET_DVR_SetLogToFile(3, "./sdklog", false);
+        hCNetSDK.NET_DVR_SetLogToFile(3, "./hik_app_logs/sdklog", false);
 
         // 设置报警回调函数
-        if (fMSFCallBack_V31 == null) {
-            fMSFCallBack_V31 = new FMSGCallBack_V31();
-            if (!hCNetSDK.NET_DVR_SetDVRMessageCallBack_V31(fMSFCallBack_V31, null)) {
-                logger.error("设置回调函数失败!");
-                return;
-            } else {
-                logger.info("设置回调函数成功!");
-            }
+        if (!hCNetSDK.NET_DVR_SetDVRMessageCallBack_V31(fMSFCallBack_V31, null)) {
+            logger.error("设置回调函数失败!");
+            return;
+        } else {
+            logger.info("设置回调函数成功!");
         }
 
         //设备登录
